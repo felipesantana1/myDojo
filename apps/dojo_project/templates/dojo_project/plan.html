@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add a Plan!</title>
+</head>
+<body>
+
+        
+        <div>
+            <h1>Add a Trip!</h1>
+            <form action='/addTrip' method='POST'>
+                {% csrf_token %}
+                Destination: <input type='text' name='name'>
+                Description: <input type='text' name='plan'>
+                Travel Date Start: <input type='date' name='start'>
+                Travel Date End: <input type='date' name='end'>
+                <input type='submit' value='Add'>
+            </form>
+            <!-- couldn't figure out how to compare dates -->
+            {% if messages %}
+                {% for message in messages %}
+                <b><p>{{message}}</p></b>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <a href="/logout">Logout</a>
+        <a href="/home">Home</a>
+    
+</body>
+</html>

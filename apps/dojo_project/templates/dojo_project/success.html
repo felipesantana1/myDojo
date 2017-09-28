@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trips Home Page</title>
+    <style>
+            #link { 
+                background: none;
+                border: none;
+                color: #0066ff;
+                text-decoration: underline;
+                cursor: pointer; 
+                }
+            table, th, td {
+                border: 1px solid black;
+                }
+    </style>
+</head>
+<body>
+
+    <h1>Hello, {{user}}</h1>
+
+    <a href="/logout">Logout</a>
+
+    <br>
+    <br>
+
+    <div>
+
+        <table>
+            <tr>
+                <th>Destination</th>
+                <th>Travel Date Start</th>
+                <th>Travel Date End</th>
+                <th>Plan</th>
+            </tr>
+            {% for trip in myTrips  %}
+            {% for dest in mydest %}
+            <tr>    
+                    <td><form action='/destination/{{dest.id}}' method='POST'>
+                        {% csrf_token %}
+                        <input type='submit' value='{{dest.name}}' id='link'>
+                    </form></td>
+                <td>{{trip.start}}</td>
+                <td>{{trip.end}}</td>
+                <td>{{trip.plan}}</td>   
+            </tr>
+            {% endfor %}
+            {% endfor %}
+        </table>
+
+    </div>
+
+    <br>
+    <br>
+
+    <div>
+
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Destination</th>
+                <th>Travel Date Start</th>
+                <th>Travel Date End</th>
+                <th>Plan</th>
+                <th>Join</th>
+            </tr>
+            {% for trip in trips %}
+            {% for w in where %}
+            {% for user in users %}
+            {% if w.trip.id == trip.id and user.name == w.user.name %}
+            <tr>    
+                <td>{{user.name}}</td>
+                <td><form action='/destination/{{w.id}}' method='POST'>
+                    {% csrf_token %}
+                    <input type='submit' value='{{w.name}}' id='link'>
+                </form></td>
+                <td>{{trip.start}}</td>
+                <td>{{trip.end}}</td>
+                <td>{{trip.plan}}</td>
+                <td><form action='/join/{{user.id}}' method='POST'>
+                    {% csrf_token %}
+                    <input type='submit' value='Join' id='link'> 
+                </form></td>  
+            </tr>
+            <!-- was unable to get users to join trips -->
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+            {% endfor %}
+         </table>
+
+    </div>
+    <br>
+    <a href="/trips/add">Add Travel Plan</a>
+    
+</body>
+</html>
